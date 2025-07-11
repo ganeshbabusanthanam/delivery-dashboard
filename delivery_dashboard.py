@@ -14,13 +14,16 @@ def init_db():
             f"SERVER={st.secrets['db_server']};"
             f"DATABASE={st.secrets['db_name']};"
             f"UID={st.secrets['db_user']};"
-            f"PWD={st.secrets['db_password']}"
+            f"PWD={st.secrets['db_password']};"
+            f"Encrypt=yes;"
+            f"TrustServerCertificate=no;"
+            f"Connection Timeout=30;"
         )
         conn = pyodbc.connect(connection_string)
         return conn
     except Exception as e:
-        st.error(f"Failed to connect to Azure SQL: {str(e)}")
-        raise
+        st.error("❌ Failed to connect to Azure SQL.")
+        st.stop()  # Stop the app to avoid further errors
 
 
 # Initialize database connection
